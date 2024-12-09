@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{487a3d26-6964-4302-a3c3-739edc9df2f2}</ProjectGuid>
+    <ProjectGuid>{2b2b3982-6675-4ab8-b5da-18efe9334e9a}</ProjectGuid>
     <RootNamespace>MOS6502</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
