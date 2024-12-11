@@ -2,6 +2,7 @@
 #include <algorithm> 
 #include <cstdint>
 #include <cassert>
+#include <memory>
 
 
 using byte = uint8_t;
@@ -16,15 +17,16 @@ static constexpr fourBytes max_memory = { KILO_BYTE * 64 };
 class Memory
 {
 public:
-	byte data[max_memory];
 
-	void init() {
-		std::fill(std::begin(data), std::end(data), 0);
-	}
+	Memory();
 
-	byte operator[] (const fourBytes& address) const {
-		assert(address < max_memory);
-		return data[address];
-	}
+	~Memory() = default; 
+
+	std::unique_ptr<byte[]> data;
+
+	void init();
+
+	byte operator[] (const fourBytes& address) const;
+
 };
 
