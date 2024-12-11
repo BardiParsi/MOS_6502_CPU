@@ -1,6 +1,4 @@
 #include <cstdint>
-#include <algorithm> 
-#include <vector>
 #include <cassert>
 #include "CPU.h"
 #include "Memory.h"
