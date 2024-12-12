@@ -10,7 +10,7 @@ void CPU::reset(Memory& mem) {
 }
 
 byte CPU::fetch(byte& cycles, Memory& mem) {
-	byte data = mem.data[PC];
+	byte data = mem[PC];
 	PC++;
 	cycles--;
 	return data;
@@ -19,7 +19,7 @@ byte CPU::fetch(byte& cycles, Memory& mem) {
 void CPU::execute(byte cycles, Memory& mem) {
 	while (cycles > 0) {
 		byte instruction = fetch(cycles, mem); // First byte is Instructor itself
-
+		cout << instruction << endl; 
 		switch (instruction) {
 		case INS_LD_ACC_IMMID: {
 			Accumulator = fetch(cycles, mem); // Accumulator Value starts from the Second byte 
@@ -28,6 +28,7 @@ void CPU::execute(byte cycles, Memory& mem) {
 			break;
 		}
 		default: {
+			cout << "The instruction is going to fail" << endl;
 			break;
 		}
 		}

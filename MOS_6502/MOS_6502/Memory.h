@@ -26,7 +26,8 @@ public:
 
 	void init();
 
-	byte operator[] (const fourBytes& address) const;
+	byte& operator[] (const fourBytes& address);
 
+	byte operator[](const fourBytes& address) const;
 };
 
