@@ -10,8 +10,6 @@ using twoBytes = uint16_t;
 using fourBytes = uint32_t;
 
 static constexpr uint16_t KILO_BYTE = 1024;
-
-
 static constexpr fourBytes max_memory = { KILO_BYTE * 64 };
 
 class Memory

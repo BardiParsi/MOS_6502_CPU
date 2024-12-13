@@ -13,9 +13,16 @@ using std::endl;
 class CPU
 {
 private:
+
+public:
+	static constexpr byte INS_LD_ACC_IMMID = 0xA9, 	// Instruction Load Accumulator Immediate Mode
+		INS_LD_ACC_ZP = 0xA5, // Instruction Load Accumulate Zero Page
+		INS_LD_ACC_ZPX = 0xB5, // Instruction Load Accumulate Zero Page.X
+		INS_JSR = 0x20; // Jump to Subroutine
+	 
 	fourBytes PC; // Program Counter
 	twoBytes SP; // Stack Pointer
-	byte Accumulator, indexRegister_X, indexRegister_Y; // CPU Registers
+	byte accumulator, indexRegister_X, indexRegister_Y; // CPU Registers
 	// Processor Status
 	byte carry : 1;
 	byte zero : 1;
@@ -25,14 +32,18 @@ private:
 	byte overFlowFlag : 1;
 	byte negativeFlag : 1;
 
-public:
-	static constexpr byte INS_LD_ACC_IMMID = 0xA9; // Instruction Load Accumulator Immediate Mode
-
 	void reset(Memory& mem);
 	
-	byte fetch(byte& cycles, Memory& mem);
+	byte fetch(fourBytes& cycles, Memory& mem);
 
-	void execute(byte cycles, Memory& mem);
+	void execute(fourBytes& cycles, Memory& mem);
 
+	byte readByte(byte& zeroPageAddr, fourBytes& cycles, const Memory& mem);
+
+	twoBytes fetchShort(fourBytes& cycles, Memory& mem);
+
+	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& address);
+
+	void ldAccSetStatus();
 };
 
