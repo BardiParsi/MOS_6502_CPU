@@ -16,7 +16,7 @@ This project is a simulation of the MOS 6502 CPU, implemented in C++. The MOS 65
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/mos6502-simulation.git
+   git clone https://github.com/BardiParsi/MOS_6502_CPU.git
 
    
 2. Build the project using your preferred C++ compiler:
