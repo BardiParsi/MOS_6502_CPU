@@ -17,9 +17,8 @@ class Memory
 public:
 
 	Memory();
-
 	~Memory() = default; 
-
+	// Memory and the Stack both are located in the heap
 	std::unique_ptr<byte[]> data;
 
 	void init();

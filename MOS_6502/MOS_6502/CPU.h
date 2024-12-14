@@ -2,17 +2,17 @@
 
 #include <cstdint>
 #include <cassert>
-#include <iostream>
 #include <concepts>
 #include <type_traits>
 #include "memory.h"
+#include "Stack.h"
+#include "LOGGER.h"
 
 using byte = uint8_t;
 using twoBytes = uint16_t;
 using fourBytes = uint32_t;
 using std::cout;
 using std::endl;
-
 
 // Concept to ensure that T is an integral type, not a bool, and is either unsigned
 // or a type that is compatible with unsigned char. This ensures the type used for 
@@ -43,6 +43,9 @@ public:
 	byte breakCommand : 1;
 	byte overFlowFlag : 1;
 	byte negativeFlag : 1;
+
+	CPU() = default;
+	~CPU() = default; 
 
 	// The writeByte method uses the addressMem concept to allow addressing with any 
 	// integral type (unsigned char, uint16_t, uint32_t, etc.). This makes the method 

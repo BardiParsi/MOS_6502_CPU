@@ -46,7 +46,7 @@ void CPU::execute(fourBytes& cycles, Memory& mem) {
     while (cycles > 0) {
 
         byte instruction = fetch(cycles, mem); // First byte is Instruction itself
-        cout << instruction << endl;
+        if(instruction) console.log("The instruction pointing to:", instruction);
 
         switch (instruction) {
 
@@ -71,13 +71,13 @@ void CPU::execute(fourBytes& cycles, Memory& mem) {
         }
         case INS_JSR: {
             twoBytes subRoutAddr = fetchShort(cycles, mem);
-            writeShort(subRoutAddr, mem, cycles, SP);
-            PC = subRoutAddr; 
-            cycles--;
+            Stack::pushShort(PC - 1, mem, cycles, SP);  
+            PC = subRoutAddr;
+            cycles -= 2;
             break;
         }
         default: {
-            cout << "The instruction is going to fail" << endl;
+            console.log("The instruction is going to fail");
             break;
         }
         } 
