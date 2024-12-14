@@ -28,13 +28,6 @@ twoBytes CPU::fetchShort(fourBytes& cycles, Memory& mem) {
 	return data;
 }
 
-void CPU::writeShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& address) {
-	mem[address] = value & 0xFF; 
-	SP--;
-	mem[address + 1] = (value >> 8);
-	SP--;
-	cycles-=2;
-}
 
 byte CPU::readByte(byte& zeroPageAddr, fourBytes& cycles, const Memory& mem) {
 	byte data = mem[zeroPageAddr];
@@ -49,41 +42,44 @@ void CPU::ldAccSetStatus() {
 }
 
 void CPU::execute(fourBytes& cycles, Memory& mem) {
-	while (cycles > 0) {
-		byte instruction = fetch(cycles, mem); // First byte is Instructor itself
-		cout << instruction << endl; 
-		switch (instruction) {
-		case INS_LD_ACC_IMMID: {
-			accumulator = fetch(cycles, mem); // Accumulator Value starts from the Second byte 
-			ldAccSetStatus();
-			break;
-		}
-		case INS_LD_ACC_ZP: {
-			byte zeroPageAddr = fetch(cycles, mem); 
-			accumulator = readByte(zeroPageAddr, cycles, mem); 
-			ldAccSetStatus();
-			break;
-		}
-		case INS_LD_ACC_ZPX: {
-			byte zeroPageAddr = fetch(cycles, mem);
-			zeroPageAddr += indexRegister_X;
-			cycles--; 
-			accumulator = readByte(zeroPageAddr, cycles, mem);
-			ldAccSetStatus();
-			break; 
-		}
-		case INS_JSR: {
-			twoBytes subRoutAddr = fetchShort(cycles, mem);
-			writeShort(subRoutAddr, mem, cycles, SP);
-			
-			PC == subRoutAddr;
-			cycles -= 2; 
-		}
-		default: {
-			cout << "The instruction is going to fail" << endl;
-			break;
-		}
-		}
 
-	}
-}
+    while (cycles > 0) {
+
+        byte instruction = fetch(cycles, mem); // First byte is Instruction itself
+        cout << instruction << endl;
+
+        switch (instruction) {
+
+        case INS_LD_ACC_IMMID: {
+            accumulator = fetch(cycles, mem); // Accumulator Value starts from the second byte 
+            ldAccSetStatus();
+            break;
+        }
+        case INS_LD_ACC_ZP: {
+            byte zeroPageAddr = fetch(cycles, mem);
+            accumulator = readByte(zeroPageAddr, cycles, mem);
+            ldAccSetStatus();
+            break;
+        }
+        case INS_LD_ACC_ZPX: {
+            byte zeroPageAddr = fetch(cycles, mem);
+            zeroPageAddr += indexRegister_X;
+            cycles--;
+            accumulator = readByte(zeroPageAddr, cycles, mem);
+            ldAccSetStatus();
+            break;
+        }
+        case INS_JSR: {
+            twoBytes subRoutAddr = fetchShort(cycles, mem);
+            writeShort(subRoutAddr, mem, cycles, SP);
+            PC = subRoutAddr; 
+            cycles--;
+            break;
+        }
+        default: {
+            cout << "The instruction is going to fail" << endl;
+            break;
+        }
+        } 
+    }
+} 

@@ -1,7 +1,10 @@
 #pragma once
+
 #include <cstdint>
 #include <cassert>
 #include <iostream>
+#include <concepts>
+#include <type_traits>
 #include "memory.h"
 
 using byte = uint8_t;
@@ -9,6 +12,15 @@ using twoBytes = uint16_t;
 using fourBytes = uint32_t;
 using std::cout;
 using std::endl;
+
+
+// Concept to ensure that T is an integral type, not a bool, and is either unsigned
+// or a type that is compatible with unsigned char. This ensures the type used for 
+// memory addresses is a valid unsigned integer type (e.g., uint8_t, uint16_t, uint32_t).
+template<typename T>
+concept addressMem = std::is_integral_v<T> && 
+					 !std::is_same_v<T, bool> && 
+					 (std::is_unsigned_v<T> || std::is_same_v<T, unsigned char>);
 
 class CPU
 {
@@ -20,7 +32,7 @@ public:
 		INS_LD_ACC_ZPX = 0xB5, // Instruction Load Accumulate Zero Page.X
 		INS_JSR = 0x20; // Jump to Subroutine
 	 
-	fourBytes PC; // Program Counter
+	twoBytes PC; // Program Counter
 	twoBytes SP; // Stack Pointer
 	byte accumulator, indexRegister_X, indexRegister_Y; // CPU Registers
 	// Processor Status
@@ -32,6 +44,25 @@ public:
 	byte overFlowFlag : 1;
 	byte negativeFlag : 1;
 
+	// The writeByte method uses the addressMem concept to allow addressing with any 
+	// integral type (unsigned char, uint16_t, uint32_t, etc.). This makes the method 
+	// flexible enough to work with different address sizes and types.
+	template<typename T>
+	requires addressMem<T>
+	void writeByte(byte value, Memory& mem, fourBytes& cycles, T& address) {
+		mem[address] = value & 0xFF;
+		SP--;
+		cycles--;
+	}
+
+	template<typename T>
+	requires addressMem<T>
+	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, T& address) {
+		writeByte((value & 0xFF), mem, cycles, address);
+		++address;
+		writeByte((value >> 8), mem, cycles, address);
+	}
+
 	void reset(Memory& mem);
 	
 	byte fetch(fourBytes& cycles, Memory& mem);
@@ -42,8 +73,7 @@ public:
 
 	twoBytes fetchShort(fourBytes& cycles, Memory& mem);
 
-	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& address);
-
 	void ldAccSetStatus();
+
 };
 

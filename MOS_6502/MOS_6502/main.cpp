@@ -17,7 +17,7 @@ int main() {
 	Memory mem;
 	CPU cpu{};
 	cpu.reset(mem); 
-	// Start - inline simulation
+	// Start - inline simulation testing
 	mem[0xFFFC] = CPU::INS_LD_ACC_ZP;
 	mem[0xFFFD] = 0x33;
 	mem[0x0033] = 0x54;
