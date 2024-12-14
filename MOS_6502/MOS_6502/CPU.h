@@ -50,7 +50,7 @@ public:
 	template<typename T>
 	requires addressMem<T>
 	void writeByte(byte value, Memory& mem, fourBytes& cycles, T& address) {
-		mem[address] = value & 0xFF;
+		mem[static_cast<size_t>(address)] = value & 0xFF;
 		SP--;
 		cycles--;
 	}
@@ -58,9 +58,9 @@ public:
 	template<typename T>
 	requires addressMem<T>
 	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, T& address) {
-		writeByte((value & 0xFF), mem, cycles, address);
+		writeByte(static_cast<byte>(value & 0xFF), mem, cycles, address);
 		++address;
-		writeByte((value >> 8), mem, cycles, address);
+		writeByte(static_cast<byte>((value >> 8) & 0xFF), mem, cycles, address);
 	}
 
 	void reset(Memory& mem);
