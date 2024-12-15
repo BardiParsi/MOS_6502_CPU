@@ -1,31 +1,111 @@
-# MOS 6502 CPU Simulation in C++
+# **MOS6502 CPU Emulator with Google Test Environment**
 
-This project is a simulation of the MOS 6502 CPU, implemented in C++. The MOS 6502 is an **8-bit CPU** with a 16-bit address bus, capable of addressing up to 64 KB of memory. It was a revolutionary microprocessor in the late 1970s and is still popular in retrocomputing and emulation communities. The goal of this project is to provide a clear, functional, and modular C++ implementation of the CPU, showcasing its core functionality, instruction set, and behavior.
+This project implements a **MOS6502 CPU Emulator**, complete with memory and logging utilities, and is set up for **unit testing** using **Google Test (gtest)** in a **C++20** environment within Microsoft Visual Studio.
 
-## Features
+---
 
-- **Instruction Set Implementation**: Simulates the full 6502 instruction set, including addressing modes (immediate, zero page, absolute, etc.).
-- **Cycle-Accurate Timing**: Emulates the clock cycle behavior of the CPU for realistic performance.
-- **Memory Interface**: Includes a basic memory model to interact with the CPU for read and write operations.
-- **Interrupts**: Supports hardware interrupts like IRQ and NMI.
-- **Debugging Tools**: Provides logging and a step-by-step execution mode for understanding CPU operations.
-- **Object-Oriented Design**: Implements the CPU in a modular and extensible way using modern C++ practices.
+## **Project Overview**
+The MOS6502 CPU Emulator simulates the behavior of the MOS6502 microprocessor, along with components like:
+- **CPU operations**: Implements instructions like `INS_JSR` (Jump to Subroutine) and `INS_LD_ACC_IMMID` (Load Accumulator Immediate).
+- **Memory management**: Memory simulation for addressable space.
+- **Testing**: Uses Google Test for unit tests to validate CPU behavior and memory interactions.
+- **Logging**: Provides insights into memory state and execution flow.
 
-## Usage
+This documentation covers setting up the project, linking Google Test, and running the emulator and its tests in a **C++20** environment using **MS Visual Studio**.
 
-1. Clone the repository:
+---
 
-   ```bash
-   git clone https://github.com/BardiParsi/MOS_6502_CPU.git
+## **Project Setup**
 
-   
-2. Build the project using your preferred C++ compiler:
-   mkdir build && cd build
-   cmake ..
-   make
+### **Prerequisites**
+1. **Microsoft Visual Studio**:
+   - Version: **2022** or newer.
+   - C++ development environment installed.
+2. **Google Test (gtest)**:
+   - Built with **C++20** and configured for **Dynamic Debug Runtime (/MDd)**.
 
-3. Run the simulator:
-   ./mos6502_simulator
+---
+
+### **Environment Configuration**
+
+#### **Step 1: Include Google Test in Visual Studio**
+1. Open your Visual Studio project and go to **Project Properties**.
+2. Add the following directories for `gtest`:
+   - **Include Directories**:  
+     ```
+     C:\***\googletest\googletest\include
+     ```
+   - **Library Directories**:  
+     ```
+     C:\***\googletest\build\lib\Debug
+     ```
+
+3. Go to **Configuration Properties > Linker > Input > Additional Dependencies** and add: gtest.lib gtest_main.lib
+
+
+4. Ensure the runtime library is consistent:
+- **C++ Runtime Library**: Set to **Multi-threaded Debug DLL (/MDd)**.
+- Match this for both your project and the `gtest.lib`.
+
+---
+
+#### **Step 2: Enable C++20**
+1. Open **Project Properties**.
+2. Go to **Configuration Properties > C/C++ > Language**.
+3. Set **C++ Language Standard** to: ISO C++20 (/std:c++20)
+
+
+---
+
+#### **Step 3: Debug Build**
+1. Ensure you’re working in the **Debug** configuration (top of Visual Studio).
+2. Clean and rebuild the project.
+
+---
+
+## **Running the Emulator and Tests**
+
+### **Main File Structure**
+The `main.cpp` file initializes Google Test, runs the MOS6502 emulator simulation, and logs memory operations.
+
+### **Memory and CPU Simulation
+Memory
+The Memory class provides addressable storage for the CPU.
+
+### **CPU
+Implements core MOS6502 instructions like:
+
+INS_JSR (Jump to Subroutine)
+INS_LD_ACC_IMMID (Load Accumulator Immediate)
+
+### **Logging
+The LOGGER.h utility logs:
+Memory addresses
+Execution flow
+
+### **Testing Framework
+Google Test Integration
+Google Test is used to validate:
+
+CPU instruction execution.
+Memory read/write operations.
+Logging correctness.
+To run the tests:
+
+Set up the environment as described above.
+Build and run the project.
+Test results will appear in the Output window of Visual Studio.
+
+### Directory Structure
+graphql
+Copy code
+MOS6502/
+├── CPU.h             # CPU Emulator Header
+├── Memory.h          # Memory Simulation Header
+├── LOGGER.h          # Logging Utilities
+├── main.cpp          # Main Emulator and Test Runner
+├── tests/            # Unit Tests for CPU and Memory
+└── CMakeLists.txt    # Optional CMake support (if needed)
 
 ## License
 This project is licensed under the GNU License.
