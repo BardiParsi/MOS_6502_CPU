@@ -5,18 +5,20 @@ void Stack::reset(twoBytes& SP) {
 }
 
 void Stack::pushByte(byte value, Memory& mem, fourBytes& cycles, twoBytes& SP) {
+    console.log((value));
     mem[SP] = mem[value];
-    SP++; // Excluded cycles for this
+    SP--; // Excluded cycles for this
+    console.log(mem[SP]);
     cycles--;
 }
 
 void Stack::pushShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    pushByte(static_cast<byte>((value >> 8) & 0xFF), mem, cycles, SP);  // High byte
-    pushByte(static_cast<byte>(value & 0xFF), mem, cycles, SP);         // Low byte
+    pushByte(((value >> 8) & 0xFF), mem, cycles, SP);  // High byte
+    pushByte((value & 0xFF), mem, cycles, SP);         // Low byte
 }
 
 byte Stack::popByte(Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    SP--;
+    SP++;
     cycles--;
     return mem[STACK_BASE + SP];
 }

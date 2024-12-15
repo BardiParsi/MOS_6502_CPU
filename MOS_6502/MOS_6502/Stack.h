@@ -9,8 +9,8 @@ using fourBytes = uint32_t;
 
 class Stack {
 private:
-    static constexpr twoBytes STACK_BASE = 0x1000; // Stack starts at 0x1000
-    byte STACK_SIZE = 0x2;
+    static constexpr twoBytes STACK_BASE = 0xFF; // Stack for Page 1
+    static constexpr byte STACK_SIZE = 0xFF;
 
 public:
     Stack() = default;

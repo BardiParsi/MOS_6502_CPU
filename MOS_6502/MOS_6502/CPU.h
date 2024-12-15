@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #include <cstdint>
 #include <cassert>
 #include <concepts>
@@ -46,25 +46,27 @@ public:
 
 	CPU() = default;
 	~CPU() = default; 
-
+	
 	// The writeByte method uses the addressMem concept to allow addressing with any 
 	// integral type (unsigned char, uint16_t, uint32_t, etc.). This makes the method 
 	// flexible enough to work with different address sizes and types.
 	template<typename T>
 	requires addressMem<T>
 	void writeByte(byte value, Memory& mem, fourBytes& cycles, T& address) {
-		mem[static_cast<size_t>(address)] = value & 0xFF;
+		mem[static_cast<byte>(address)] = value & 0xFF;
 		SP--;
+		address--; 
 		cycles--;
 	}
 
 	template<typename T>
 	requires addressMem<T>
 	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, T& address) {
-		writeByte(static_cast<byte>(value & 0xFF), mem, cycles, address);
+		writeByte(value & 0xFF, mem, cycles, address);
 		++address;
-		writeByte(static_cast<byte>((value >> 8) & 0xFF), mem, cycles, address);
+		writeByte((value >> 8) & 0xFF, mem, cycles, address);
 	}
+
 
 	void reset(Memory& mem);
 	

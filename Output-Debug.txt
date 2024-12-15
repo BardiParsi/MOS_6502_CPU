@@ -1,0 +1,11 @@
+﻿'MOS_6502.exe' (Win32): Loaded 'C:\Users\farsi\source\CPU\MOS_6502\MOS_6502\x64\Debug\MOS_6502.exe'. Symbols loaded.
+'MOS_6502.exe' (Win32): Loaded 'C:\Windows\System32\ntdll.dll'. 
+'MOS_6502.exe' (Win32): Loaded 'C:\Windows\System32\kernel32.dll'. 
+'MOS_6502.exe' (Win32): Loaded 'C:\Windows\System32\KernelBase.dll'. 
+The thread 35044 has exited with code 0 (0x0).
+'MOS_6502.exe' (Win32): Loaded 'C:\Windows\System32\kernel.appcore.dll'. 
+'MOS_6502.exe' (Win32): Loaded 'C:\Windows\System32\msvcrt.dll'. 
+'MOS_6502.exe' (Win32): Unloaded 'C:\Windows\System32\msvcrt.dll'
+'MOS_6502.exe' (Win32): Unloaded 'C:\Windows\System32\kernel.appcore.dll'
+The thread 32168 has exited with code 0 (0x0).
+The program '[58632] MOS_6502.exe' has exited with code 0 (0x0).

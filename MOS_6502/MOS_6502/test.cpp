@@ -1,3 +1,4 @@
+
 #include <cstdint>
 #include <iostream>
 #include <cassert>
@@ -19,9 +20,9 @@ public:
 	Memory mem;
 	CPU cpu{};
 	
+	
 	virtual void setup() {
 		cpu.reset(mem);
-		
 	}
 	virtual void TearDown() {
 
@@ -29,19 +30,14 @@ public:
 };
 
 TEST_F(MOS6502Test, Test_Init) {
-	mem[0x0] = CPU::INS_JSR;
-	mem[0x1] = 0x33;
-	mem[0x2] = 0x54;
-	
-	console.log("Memory address of mem[0xFFFC]:", static_cast<const void*>(&mem[0x0]));
-	console.log("Memory address of mem[0xFFFD]:", static_cast<const void*>(&mem[0x1]));
-	console.log("Memory address of mem[0xFFFE]:", static_cast<const void*>(&mem[0x2]));
-
-	// End - inline
+	mem[0xFFFC] = CPU::INS_JSR;
+	mem[0xFFFD] = 0x33;
+	mem[0xFFFE] = 0x54;
 	cpu.execute(cycles, mem);
-	console.log("The value of Accumulator is:", CPU::INS_LD_ACC_IMMID);
-	// Currently SP is pointing at 0x10FF
-	EXPECT_EQ(mem[0x1002], 0x54);
+	
+	EXPECT_EQ(mem[0xFF], 0x33);
+	EXPECT_EQ(mem[0xFE], 0x54);
+
 }
 
 

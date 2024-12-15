@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
+
 #include <cstdint>
 #include <iostream>
 #include <sstream>
@@ -71,3 +73,5 @@ public:
 };
 
 extern LOGGER console;
+
+#endif
