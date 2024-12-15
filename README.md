@@ -100,12 +100,12 @@ Test results will appear in the Output window of Visual Studio.
 graphql
 Copy code
 MOS6502/
-├── CPU.h             # CPU Emulator Header
-├── Memory.h          # Memory Simulation Header
-├── LOGGER.h          # Logging Utilities
-├── main.cpp          # Main Emulator and Test Runner
-├── tests/            # Unit Tests for CPU and Memory
-└── CMakeLists.txt    # Optional CMake support (if needed)
+├── CPU.h             CPU Emulator Header 
+├── Memory.h          Memory Simulation Header
+├── LOGGER.h          Logging Utilities
+├── main.cpp          Main Emulator and Test Runner
+├── tests/            Unit Tests for CPU and Memory
+└── CMakeLists.txt    Optional CMake support (if needed)
 
 ## License
 This project is licensed under the GNU License.
