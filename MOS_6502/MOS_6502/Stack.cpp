@@ -1,12 +1,12 @@
 #include "Stack.h"
 
 void Stack::reset(twoBytes& SP) {
-    SP = STACK_SIZE;
+    SP = STACK_BASE;
 }
 
 void Stack::pushByte(byte value, Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    mem[STACK_BASE + SP] = value & 0xFF;
-    SP--;
+    mem[SP] = mem[value];
+    SP++; // Excluded cycles for this
     cycles--;
 }
 
@@ -16,7 +16,7 @@ void Stack::pushShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& 
 }
 
 byte Stack::popByte(Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    SP++;
+    SP--;
     cycles--;
     return mem[STACK_BASE + SP];
 }
@@ -28,11 +28,11 @@ twoBytes Stack::popShort(Memory& mem, fourBytes& cycles, twoBytes& SP) {
 }
 
 byte Stack::peek(const Memory& mem, const twoBytes& SP) {
-    return mem[STACK_BASE + SP + 1];
+    return mem[SP];
 }
 
 bool Stack::isEmpty(const twoBytes& SP) {
-    return SP == STACK_SIZE;
+    return SP == STACK_BASE;
 }
 
 bool Stack::isFull(const twoBytes& SP) {

@@ -30,7 +30,7 @@ public:
 	static constexpr byte INS_LD_ACC_IMMID = 0xA9, 	// Instruction Load Accumulator Immediate Mode
 		INS_LD_ACC_ZP = 0xA5, // Instruction Load Accumulate Zero Page
 		INS_LD_ACC_ZPX = 0xB5, // Instruction Load Accumulate Zero Page.X
-		INS_JSR = 0x20; // Jump to Subroutine
+		INS_JSR = 0x20; // 0x20 Jump to Subroutine but in this version we go upside down
 	 
 	twoBytes PC; // Program Counter
 	twoBytes SP; // Stack Pointer

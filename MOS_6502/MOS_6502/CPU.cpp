@@ -2,8 +2,8 @@
 
 
 void CPU::reset(Memory& mem) {
-	PC = 0xFFFC;
-	SP = 0xFF;
+	PC = 0x0;
+    SP = 0X1000; 
 	carry = zero = intruptDisable = decimal = breakCommand = overFlowFlag = negativeFlag = 0;
 	accumulator = indexRegister_X = indexRegister_Y = 0;
 	mem.init();
@@ -19,12 +19,8 @@ byte CPU::fetch(fourBytes& cycles, Memory& mem) {
 twoBytes CPU::fetchShort(fourBytes& cycles, Memory& mem) {
 	// Little Endian CPU capacity is 8 Bit format
 	// Memory Address is 16 Bit
-	byte data = mem[PC];
-	PC++;
-	data |= (mem[PC] << 8); // Move 1 byte to the left and do OR bitwise assignment to make a 16 bit out of 8 bit CPU
-	PC++;
-	cycles-=2;
-
+	byte data = fetch(cycles, mem);
+	data |= (fetch(cycles, mem) << 8); // Move 1 byte to the left and do OR bitwise assignment to make a 16 bit out of 8 bit CPU
 	return data;
 }
 
@@ -70,9 +66,13 @@ void CPU::execute(fourBytes& cycles, Memory& mem) {
             break;
         }
         case INS_JSR: {
-            twoBytes subRoutAddr = fetchShort(cycles, mem);
-            Stack::pushShort(PC - 1, mem, cycles, SP);  
-            PC = subRoutAddr;
+            std::cout << SP << std::endl; 
+            twoBytes subRout = fetchShort(cycles, mem);
+            console.log(PC - 1);
+            Stack::pushByte((PC - 1), mem, cycles, SP); 
+            console.log(PC);
+            Stack::pushByte(PC, mem, cycles, SP);
+            PC -=2;
             cycles -= 2;
             break;
         }

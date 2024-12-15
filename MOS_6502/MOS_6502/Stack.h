@@ -9,15 +9,15 @@ using fourBytes = uint32_t;
 
 class Stack {
 private:
-    static constexpr twoBytes STACK_BASE = 0x0100; // Stack starts at 0x0100
-    static constexpr byte STACK_SIZE = 0xFF;
+    static constexpr twoBytes STACK_BASE = 0x1000; // Stack starts at 0x1000
+    byte STACK_SIZE = 0x2;
 
 public:
     Stack() = default;
     ~Stack() = default; 
 
     // Initialize stack pointer
-    static void reset(twoBytes& SP); 
+    static void reset(twoBytes& SP);
 
     // Push a byte onto the stack
     static void pushByte(byte value, Memory& mem, fourBytes& cycles, twoBytes& SP);
@@ -38,6 +38,6 @@ public:
     static bool isEmpty(const twoBytes& SP);
 
     // Check if stack is full (SP = 0x00)
-    static bool isFull(const twoBytes& SP); 
+    static bool isFull(const twoBytes& SP);
 };
 
