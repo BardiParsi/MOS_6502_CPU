@@ -72,6 +72,10 @@ The `main.cpp` file initializes Google Test, runs the MOS6502 emulator simulatio
 Memory
 The Memory class provides addressable storage for the CPU.
 
+### **Stack Simulation
+Stack
+Stack class designed to handle operations related to the CPU’s stack pointer (SP).
+
 ### **CPU
 Implements core MOS6502 instructions like:
 
@@ -106,6 +110,8 @@ MOS6502/
 ├── CPU.h             CPU Emulator Header 
 
 ├── Memory.h          Memory Simulation Header
+
+├── Stack.h          Stack Simulation Header
 
 ├── LOGGER.h          Logging Utilities
 
