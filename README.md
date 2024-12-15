@@ -96,7 +96,7 @@ Set up the environment as described above.
 Build and run the project.
 Test results will appear in the Output window of Visual Studio.
 
-### **Directory Structure
+## Directory Structure
 graphql
 Copy code
 MOS6502/
