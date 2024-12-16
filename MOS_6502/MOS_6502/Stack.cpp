@@ -4,19 +4,6 @@ void Stack::reset(twoBytes& SP) {
     SP = STACK_BASE;
 }
 
-void Stack::pushByte(byte value, Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    console.log((value));
-    mem[SP] = mem[value];
-    SP--; // Excluded cycles for this
-    console.log(mem[SP]);
-    cycles--;
-}
-
-void Stack::pushShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& SP) {
-    pushByte(((value >> 8) & 0xFF), mem, cycles, SP);  // High byte
-    pushByte((value & 0xFF), mem, cycles, SP);         // Low byte
-}
-
 byte Stack::popByte(Memory& mem, fourBytes& cycles, twoBytes& SP) {
     SP++;
     cycles--;

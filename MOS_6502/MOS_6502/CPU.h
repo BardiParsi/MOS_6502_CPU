@@ -30,8 +30,11 @@ public:
 	static constexpr byte INS_LD_ACC_IMMID = 0xA9, 	// Instruction Load Accumulator Immediate Mode
 		INS_LD_ACC_ZP = 0xA5, // Instruction Load Accumulate Zero Page
 		INS_LD_ACC_ZPX = 0xB5, // Instruction Load Accumulate Zero Page.X
-		INS_JSR = 0x20; // 0x20 Jump to Subroutine but in this version we go upside down
+		INS_JSR = 0x20, // 0x20 Jump to Subroutine but in this version we go upside down
+	    INS_LD_SV_TEMP = 0x54; // In house created Instructor for Load and Save at the same time
 	 
+	byte tempIndex = 0xc8; // An index to save a temporary variable
+
 	twoBytes PC; // Program Counter
 	twoBytes SP; // Stack Pointer
 	byte accumulator, indexRegister_X, indexRegister_Y; // CPU Registers
@@ -53,9 +56,7 @@ public:
 	template<typename T>
 	requires addressMem<T>
 	void writeByte(byte value, Memory& mem, fourBytes& cycles, T& address) {
-		mem[static_cast<byte>(address)] = value & 0xFF;
-		SP--;
-		address--; 
+		mem[static_cast<byte>(address)] = value & 0xFF; 
 		cycles--;
 	}
 
@@ -63,7 +64,7 @@ public:
 	requires addressMem<T>
 	void writeShort(twoBytes value, Memory& mem, fourBytes& cycles, T& address) {
 		writeByte(value & 0xFF, mem, cycles, address);
-		++address;
+		address++;
 		writeByte((value >> 8) & 0xFF, mem, cycles, address);
 	}
 
@@ -74,7 +75,13 @@ public:
 
 	void execute(fourBytes& cycles, Memory& mem);
 
-	byte readByte(byte& zeroPageAddr, fourBytes& cycles, const Memory& mem);
+	template<typename T>
+	requires addressMem<T>
+	byte readByte(T& address, fourBytes& cycles, const Memory& mem) {
+		byte data = mem[address];
+		cycles--;
+		return data;
+	}
 
 	twoBytes fetchShort(fourBytes& cycles, Memory& mem);
 

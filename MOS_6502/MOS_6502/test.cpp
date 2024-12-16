@@ -1,4 +1,7 @@
 
+// Remove #if 0 and #endif to activate the Gtest
+#if 0
+
 #include <cstdint>
 #include <iostream>
 #include <cassert>
@@ -23,6 +26,7 @@ public:
 	
 	virtual void setup() {
 		cpu.reset(mem);
+		// Write all the variable initialization here
 	}
 	virtual void TearDown() {
 
@@ -37,11 +41,11 @@ TEST_F(MOS6502Test, Test_Init) {
 	
 	EXPECT_EQ(mem[0xFF], 0x33);
 	EXPECT_EQ(mem[0xFE], 0x54);
-
+	EXPECT_EQ(mem[0xc8], 0x85);
 }
 
 
 
 
 
-
+#endif

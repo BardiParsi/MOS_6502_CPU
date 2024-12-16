@@ -28,11 +28,6 @@ twoBytes CPU::fetchShort(fourBytes& cycles, Memory& mem) {
 }
 
 
-byte CPU::readByte(byte& zeroPageAddr, fourBytes& cycles, const Memory& mem) {
-	byte data = mem[zeroPageAddr];
-	cycles--; 
-	return data;
-}
 
 void CPU::ldAccSetStatus() {
 	zero = (accumulator == 0); // Zero flag is set if the Accumulator is equal to 0
@@ -70,9 +65,16 @@ void CPU::execute(fourBytes& cycles, Memory& mem) {
         }
         case INS_JSR: {
             twoBytes subRout = fetchShort(cycles, mem);
-            writeShort(subRout, mem, cycles, SP);
-            PC -=2;
+            Stack::pushShort(subRout, mem, cycles, SP);
+            PC--;
             cycles -= 2;
+            break;
+        }
+        case INS_LD_SV_TEMP: {
+            twoBytes indexToSave = 0x0602; // This is just for demonstration
+            byte tempValue = readByte(indexToSave, cycles, mem);
+            CPU::writeByte(tempValue, mem, cycles, tempIndex);
+            cycles -= 3; 
             break;
         }
         default: {

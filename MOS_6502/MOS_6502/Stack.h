@@ -1,11 +1,22 @@
 #pragma once
+
 #include <cstdint>
+#include <concepts>
+#include <type_traits>
 #include "memory.h"
 #include "CPU.h"
+#include "LOGGER.h"
 
 using byte = uint8_t;
 using twoBytes = uint16_t;
 using fourBytes = uint32_t;
+
+template<typename T>
+concept addressSP = std::is_integral_v<T> &&
+                    !std::is_same_v<T, bool> &&
+                    (std::is_unsigned_v<T> || std::is_same_v<T, unsigned char>);
+
+
 
 class Stack {
 private:
@@ -20,10 +31,21 @@ public:
     static void reset(twoBytes& SP);
 
     // Push a byte onto the stack
-    static void pushByte(byte value, Memory& mem, fourBytes& cycles, twoBytes& SP);
+    template<typename T>
+    requires addressSP<T>
+    static void pushByte(byte value, Memory& mem, fourBytes& cycles, T& SP) {
+        mem[static_cast<byte>(SP)] = value & 0xFF;
+        SP--;
+        cycles--;
+    }
 
     // Push a 16-bit value onto the stack (little-endian)
-    static void pushShort(twoBytes value, Memory& mem, fourBytes& cycles, twoBytes& SP);
+    template<typename T>
+    requires addressSP<T>
+    static void pushShort(twoBytes value, Memory& mem, fourBytes& cycles, T& SP) {
+        pushByte(value & 0xFF, mem, cycles, SP);
+        pushByte((value >> 8) & 0xFF, mem, cycles, SP);
+    }
 
     // Pop a byte from the stack
     static byte popByte(Memory& mem, fourBytes& cycles, twoBytes& SP);
