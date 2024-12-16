@@ -1,4 +1,26 @@
-# **MOS6502 CPU Emulator with Google Test Environment**
+# **MOS6502 CPU Emulator Overview**
+
+This project simulates a small part of the MOS6502 CPU functionality. Below is an explanation of a specific sequence:
+
+1. **Initialization**:
+   - The number of CPU cycles is set.
+   - `CPU`, `Memory`, and `Stack` objects are initialized.
+   - The CPU is then reset to its initial state.
+
+2. **Fetch and Execute Cycle**:
+   - The CPU fetches the first instruction, which is a `Jump to Subroutine (JSR)`.
+   - Two bytes (representing the target address) are fetched from memory and pushed onto the stack.
+   - The Program Counter (PC) is decremented by one to simulate the instruction cycle correctly.
+
+3. **Custom Instruction Simulation**:
+   - The CPU fetches a value from memory to simulate an in-house function:  
+     `INS_LD_SV_TEMP = 0x54`.
+   - This function reads one byte from a specified memory location and stores it as a temporary variable in **Zero Page** at `tempIndex = 0xC8`.
+
+4. **Generic Address Handling**:
+   - Due to differences in memory address sizes, the simulation functions are designed to handle both one-byte and two-byte memory addresses dynamically.
+
+This simulation provides an example of how the MOS6502 operates, with a focus on the `JSR` instruction and temporary variable handling using **Zero Page** memory.
 
 This project implements a **MOS6502 CPU Emulator**, complete with memory and logging utilities, and is set up for **unit testing** using **Google Test (gtest)** in a **C++20** environment within Microsoft Visual Studio.
 
