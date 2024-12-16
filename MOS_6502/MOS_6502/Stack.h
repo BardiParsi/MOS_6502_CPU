@@ -34,7 +34,7 @@ public:
     template<typename T>
     requires addressSP<T>
     static void pushByte(byte value, Memory& mem, fourBytes& cycles, T& SP) {
-        mem[static_cast<byte>(SP)] = value & 0xFF;
+        mem[static_cast<size_t>(SP)] = value & 0xFF;
         SP--;
         cycles--;
     }
