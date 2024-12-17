@@ -17,7 +17,6 @@ int main() {
 	fourBytes cycles{ 13 };
 	Memory mem;
 	CPU cpu{};
-	Stack stack{};
 	cpu.reset(mem);
 	// Start - inline simulation testing
 	mem[0xFFFC] = CPU::INS_JSR;
